@@ -2,12 +2,43 @@ import sys
 
 from PyQt5.QtCore import QCoreApplication, QDate, Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QToolTip, QMainWindow, QAction, qApp, QDesktopWidget, \
-    QLabel, QVBoxLayout
+    QLabel, QVBoxLayout, QHBoxLayout, QGridLayout, QLineEdit
 from PyQt5.QtGui import QIcon, QFont
 
 class MyWidget(QWidget):
     def __init__(self):
         super().__init__()
+
+        grid = QGridLayout()
+        grid.addWidget(QLabel("Title:"), 0, 0)
+        grid.addWidget(QLabel("Author:"), 1, 0)
+        grid.addWidget(QLabel("Review:"), 2, 0)
+
+        grid.addWidget(QLineEdit(), 0, 1)
+        grid.addWidget(QLineEdit(), 1, 1)
+        grid.addWidget(QLineEdit(), 2, 1)
+
+        okButton = QPushButton("OK")
+        cancelButton = QPushButton("Cancel")
+
+        okButton.setEnabled(False)
+        cancelButton.setCheckable(True)
+        cancelButton.toggle()
+
+        hbox = QHBoxLayout()
+        # 여백 추가
+        hbox.addStretch(1)
+        hbox.addWidget(okButton)
+        hbox.addWidget(cancelButton)
+        hbox.addStretch(1)
+
+        title = QLabel("First Label")
+        title.setAlignment(Qt.AlignVCenter)
+        font1 = title.font()
+        font1.setBold(True)
+        font1.setPointSize(30)
+        title.setFont(font1)
+
         lbl_red = QLabel("Red")
         lbl_green = QLabel("Green")
         lbl_blue = QLabel("Blue")
@@ -20,17 +51,16 @@ class MyWidget(QWidget):
                               )
 
         layout = QVBoxLayout()
+        layout.addWidget(title)
         layout.addWidget(lbl_red)
         layout.addWidget(lbl_green)
         layout.addWidget(lbl_blue)
+        layout.addLayout(hbox)
+        layout.addLayout(grid)
         # layout.addWidget(btn)
 
         self.setLayout(layout)
         self.setGeometry(600, 300, 600, 600)
-
-
-
-
 
 class MyApp(QMainWindow):
     def __init__(self):
